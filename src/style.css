@@ -1,0 +1,59 @@
+.home,.game .card-container{
+    padding: 15px;
+    margin-bottom: 25px;
+    margin-top:5px;    
+    border: none;
+    margin-left:5px;
+    margin-right: 5px;
+    box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.19);
+    
+}
+.home,.game .card-holder{    
+    margin: auto;
+}
+.home,.game .card-container:hover {
+    transform: scale(1.03);
+}
+.home,.game .card-head {
+    color:black;
+}
+.home,.game Link {
+    text-decoration: none;
+}
+.home,.game .card-head:hover {
+    text-decoration: none;
+    color:blue;
+}
+.bg-orange{
+    background-color: orange;
+    /* background-color: #9C27B0; */
+}
+.navbar-brand{
+    margin-left:7%;
+    font-size: 23px !important;
+    font-weight: 600;
+}
+.navbar-nav{
+    margin-right: 100px;
+}
+.nav-link{
+    color:black !important;
+    font-size: 16px;
+    font-weight: 600;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-left:2px;
+}
+.navbar-nav .active{
+    background-color: rgba(255, 255, 255, 0.404);
+    border-radius: 5%;
+}
+.nav-link:hover{
+    background-color: rgba(255, 255, 255, 0.404);
+    border-radius: 5%;
+}
+.nav-text{
+    margin-top:-10px;position:absolute;
+}
