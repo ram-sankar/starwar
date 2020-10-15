@@ -1,15 +1,16 @@
 import http from './httpService';
-const url = '/people/'
+const urlPeople = '/people/';
+const urlPlanet = '/planets/'
 
 export function getPeople(id) {
-    return http.get(url + id + '/');
+    return http.get(urlPeople + id + '/');
 }
 
-export function getStarShip(id) {
-    return http.get(url + id + '/');
+export function getPlanet(id) {
+    return http.get(urlPlanet + id + '/');
 }
 
 export default {
     getPeople,
-    getStarShip
+    getPlanet
 }

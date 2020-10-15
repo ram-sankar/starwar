@@ -13,6 +13,7 @@
 }
 .home,.game .card-container:hover {
     transform: scale(1.03);
+    cursor: pointer;
 }
 .home,.game .card-head {
     color:black;
@@ -22,7 +23,9 @@
 }
 .home,.game .card-head:hover {
     text-decoration: none;
-    color:blue;
+}
+.game .selected {
+    background-color: aquamarine;
 }
 .bg-orange{
     background-color: orange;

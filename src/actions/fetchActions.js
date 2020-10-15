@@ -1,5 +1,5 @@
-import { FETCH_PEOPLE } from "./types"
-import { getPeople } from '../Services/fetchService';
+import { FETCH_PEOPLE, FETCH_PLANETS, RESET } from "./types"
+import { getPeople, getPlanet } from '../Services/fetchService';
 
 export function fetchPeople(data) {
     return async function (dispatch) {
@@ -11,6 +11,26 @@ export function fetchPeople(data) {
     }
 }
 
+export function fetchPlanet(data) {
+    return async function (dispatch) {
+        const res = await getPlanet(data)
+        dispatch({
+            type: FETCH_PLANETS,
+            payload: res
+        })
+    }
+}
+
+export function reset() {
+    return async function (dispatch) {
+        dispatch({
+            type: RESET
+        })
+    }
+}
+
 export default {
-    fetchPeople
+    fetchPeople,
+    fetchPlanet,
+    reset
 };

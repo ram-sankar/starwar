@@ -1,7 +1,8 @@
-import { FETCH_PEOPLE } from "../actions/types"
+import { FETCH_PEOPLE, FETCH_PLANETS, RESET } from "../actions/types"
 
 const initialState = {
     people: [],
+    planets: [],
     item: {}
 };
 
@@ -11,6 +12,17 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 people: [...state.people, action.payload]
+            }
+        case FETCH_PLANETS:
+            return {
+                ...state,
+                planets: [...state.planets, action.payload]
+            }
+        case RESET:
+            return {
+                ...state,
+                planets: [],
+                people: []
             }
         default:
             return state;
