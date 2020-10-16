@@ -1,38 +1,37 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { reset } from '../actions/fetchActions'
-import { Link } from 'react-router-dom'
+import { setPlayers } from '../actions/fetchActions'
 
 export class Home extends Component {
+    constructor() {
+        super();
+        this.state = { players: 1 }
+    }
 
-    componentDidMount() {
-        this.props.reset()
+    handleChange = e => this.setState({ [e.target.id]: e.target.value })
+
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.setPlayers(this.state.players)
+        this.props.history.push('/category')
     }
 
     render() {
         return (
-            <div className="game container text-center">
-                <br /><br /><h2>Select a category</h2><br />
-                <div className="card-holder row">
-                    <div className="col-md-6">
-                        <div className="card-container">
-                            <Link to='game/people' className="card-head"><h4>People</h4></Link>
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="card-container">
-                            <Link to='game/planet' className="card-head"><h4>Planet</h4></Link>
-                        </div>
-                    </div>
-                </div>
+            <div className="multi-player text-center"><br /><br />
+                <h2 className="text-center">Select Number of player</h2><br /><br />
+                <form className="players-form text-center">
+                    <input id="players" value={this.state.players} onChange={this.handleChange} className="form-control mr-4" type="number" placeholder="Enter number of players" /><br />
+                    <button type="submit" onClick={this.handleSubmit} className="btn btn-primary">Play</button>
+                </form>
             </div>
         )
     }
 }
 
+
 const mapDispatchToProps = dispatch => ({
-    reset: () => dispatch(reset())
+    setPlayers: (num) => dispatch(setPlayers(num))
 })
 
 export default connect(null, mapDispatchToProps)(Home);
-

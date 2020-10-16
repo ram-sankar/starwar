@@ -36,6 +36,10 @@
     font-size: 23px !important;
     font-weight: 600;
 }
+.players-form{
+    width: 100px;
+    margin: auto;
+}
 .navbar-nav{
     margin-right: 100px;
 }

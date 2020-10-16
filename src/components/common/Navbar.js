@@ -12,8 +12,6 @@ function Navbar() {
                 <ul className="navbar-nav ml-auto">
                     <NavLink className="nav-link" to="/home">Home</NavLink>
                     <NavLink className="nav-link" to="/history">My Games</NavLink>
-                    <NavLink className="nav-link" to="/multi-player">Multi Players</NavLink>
-                    <NavLink className="nav-link" to="/profile">Profile</NavLink>
                 </ul>
             </div>
         </nav>

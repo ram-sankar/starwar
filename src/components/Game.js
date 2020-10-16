@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPeople, fetchPlanet } from '../actions/fetchActions'
+import { fetchPeople, fetchPlanet, playerLog } from '../actions/fetchActions'
 
 export class Game extends Component {
 
     state = {
         selectedPerson: '',
-        selectedPlanet: ''
+        selectedPlanet: '',
+        numberOfPlayers: 2
     }
 
     generateRandomNumber() {
-        const noOfRandomNumber = 2;
+        const noOfRandomNumber = Number(this.props.players) + 1;
         let arr = []
         while (arr.length <= noOfRandomNumber - 1) {
             var i = Math.floor((Math.random() * (50)) + 1);
@@ -63,7 +64,7 @@ export class Game extends Component {
             description = "(Planet with larger diameter wins)"
         }
 
-        return len <= 1 ? <div>loading...</div> :
+        return len <= this.props.players ? <div>loading...</div> :
             <React.Fragment>
                 <h2 className="text-center">Select a {title}</h2>
                 <p className="text-center">{description}</p><br />
@@ -71,6 +72,14 @@ export class Game extends Component {
                     {nameCard}
                 </div>
             </React.Fragment>
+    }
+
+    selectPerson = name => {
+        this.setState({ selectedPerson: name })
+    }
+
+    selectPlanet = name => {
+        this.setState({ selectedPlanet: name })
     }
 
     indexOfMaxHeight = () => {
@@ -100,10 +109,27 @@ export class Game extends Component {
     displayResultCard = () => {
         let result, bgClass, resultCard;
         if (this.props.match.params.id === 'people') {
-            if (this.props.people[this.indexOfMaxHeight()].data.name === this.state.selectedPerson)
+            const selected = this.props.people[this.indexOfMaxHeight()]
+            if (selected.data.name === this.state.selectedPerson) {
                 result = "You won"
-            else
+                // const log = {
+                //     result: "won",
+                //     selectedPerson: selected.data.name,
+                //     selectedPlanet: "",
+                //     category: "people"
+                // }
+                // this.props.playerLog(log)
+            }
+            else {
                 result = "You Lost"
+                // const log = {
+                //     result: "lost",
+                //     selectedPerson: selected.data.name,
+                //     selectedPlanet: "",
+                //     category: "people"
+                // }
+                // this.props.playerLog(log)
+            }
 
             resultCard = this.props.people.map(person => {
                 if (person.data.name === this.state.selectedPerson)
@@ -151,16 +177,6 @@ export class Game extends Component {
         </React.Fragment>
     }
 
-
-
-    selectPerson = name => {
-        this.setState({ selectedPerson: name })
-    }
-
-    selectPlanet = name => {
-        this.setState({ selectedPlanet: name })
-    }
-
     render() {
         const { selectedPerson, selectedPlanet } = this.state;
         let selected;
@@ -181,12 +197,15 @@ export class Game extends Component {
 
 const mapStateToProps = state => ({
     people: state.posts.people,
-    planets: state.posts.planets
+    planets: state.posts.planets,
+    log: state.posts.log,
+    players: state.posts.players
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchPeople: (id) => dispatch(fetchPeople(id)),
-    fetchPlanet: (id) => dispatch(fetchPlanet(id))
+    fetchPlanet: (id) => dispatch(fetchPlanet(id)),
+    playerLog: (data) => dispatch(playerLog(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

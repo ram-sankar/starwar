@@ -1,4 +1,4 @@
-import { FETCH_PEOPLE, FETCH_PLANETS, RESET } from "./types"
+import { FETCH_PEOPLE, FETCH_PLANETS, RESET, PLAYER_LOG, SET_PLAYERS } from "./types"
 import { getPeople, getPlanet } from '../Services/fetchService';
 
 export function fetchPeople(data) {
@@ -21,6 +21,24 @@ export function fetchPlanet(data) {
     }
 }
 
+export function setPlayers(data) {
+    return async function (dispatch) {
+        dispatch({
+            type: SET_PLAYERS,
+            payload: data
+        })
+    }
+}
+
+export function playerLog(data) {
+    return async function (dispatch) {
+        dispatch({
+            type: PLAYER_LOG,
+            payload: data
+        })
+    }
+}
+
 export function reset() {
     return async function (dispatch) {
         dispatch({
@@ -32,5 +50,7 @@ export function reset() {
 export default {
     fetchPeople,
     fetchPlanet,
+    playerLog,
+    setPlayers,
     reset
 };
