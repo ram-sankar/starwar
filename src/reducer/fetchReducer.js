@@ -1,20 +1,14 @@
-import { FETCH_PEOPLE, FETCH_PLANETS, RESET, PLAYER_LOG, SET_PLAYERS } from "../actions/types"
+import { FETCH_PEOPLE, FETCH_PLANETS, PLAYER_LOG, RESET_FETCH_ACTION } from "../actions/types"
 
 const initialState = {
     people: [],
     planets: [],
-    log: [],
-    players: 1,
-    item: {}
+    log: []
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case SET_PLAYERS:
-            return {
-                ...state,
-                players: action.payload
-            }
+
         case PLAYER_LOG:
             return {
                 ...state,
@@ -30,11 +24,11 @@ export default function (state = initialState, action) {
                 ...state,
                 planets: [...state.planets, action.payload]
             }
-        case RESET:
+        case RESET_FETCH_ACTION:
             return {
                 ...state,
-                planets: [],
-                people: []
+                people: [],
+                planets: []
             }
         default:
             return state;

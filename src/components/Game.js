@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { fetchPeople, fetchPlanet, playerLog } from '../actions/fetchActions'
+import DisplayNameCard from './subComponents/DisplayNameCard';
+import DisplayResultCard from './subComponents/DisplayResultCard';
 
 export class Game extends Component {
 
-    state = {
-        selectedPerson: '',
-        selectedPlanet: '',
-        numberOfPlayers: 2
-    }
-
     generateRandomNumber() {
-        const noOfRandomNumber = Number(this.props.players) + 1;
+        const noOfRandomNumber = Number(this.props.players);
         let arr = []
         while (arr.length <= noOfRandomNumber - 1) {
             var i = Math.floor((Math.random() * (50)) + 1);
@@ -37,148 +32,9 @@ export class Game extends Component {
         }
     }
 
-    displayNameCard = () => {
-        let nameCard, len, title, description;
-        if (this.props.match.params.id === 'people') {
-            nameCard = this.props.people.map(person =>
-                <div key={person.data.name} className="col-md-6">
-                    <div className="card-container" onClick={() => this.selectPerson(person.data.name)}>
-                        <h4>{person.data.name}</h4>
-                    </div>
-                </div>
-            )
-            len = this.props.people.length
-            title = "Person"
-            description = "Person with larger height wins"
-        }
-        else if (this.props.match.params.id === 'planet') {
-            nameCard = this.props.planets.map(planet =>
-                <div key={planet.data.name} className="col-md-6">
-                    <div className="card-container" onClick={() => this.selectPlanet(planet.data.name)}>
-                        <h4>{planet.data.name}</h4>
-                    </div>
-                </div>
-            )
-            len = this.props.planets.length
-            title = "Planet"
-            description = "(Planet with larger diameter wins)"
-        }
-
-        return len <= this.props.players ? <div>loading...</div> :
-            <React.Fragment>
-                <h2 className="text-center">Select a {title}</h2>
-                <p className="text-center">{description}</p><br />
-                <div className="card-holder row">
-                    {nameCard}
-                </div>
-            </React.Fragment>
-    }
-
-    selectPerson = name => {
-        this.setState({ selectedPerson: name })
-    }
-
-    selectPlanet = name => {
-        this.setState({ selectedPlanet: name })
-    }
-
-    indexOfMaxHeight = () => {
-        const { people } = this.props;
-        let index, max = 0;
-        for (let i in people) {
-            if (Number(people[i].data.height) > max) {
-                max = Number(people[i].data.height)
-                index = i
-            }
-        }
-        return index;
-    }
-
-    indexOfMaxDiameter = () => {
-        const { planets } = this.props;
-        let index, max = 0;
-        for (let i in planets) {
-            if (Number(planets[i].data.diameter) > max) {
-                max = Number(planets[i].data.diameter)
-                index = i
-            }
-        }
-        return index;
-    }
-
-    displayResultCard = () => {
-        let result, bgClass, resultCard;
-        if (this.props.match.params.id === 'people') {
-            const selected = this.props.people[this.indexOfMaxHeight()]
-            if (selected.data.name === this.state.selectedPerson) {
-                result = "You won"
-                // const log = {
-                //     result: "won",
-                //     selectedPerson: selected.data.name,
-                //     selectedPlanet: "",
-                //     category: "people"
-                // }
-                // this.props.playerLog(log)
-            }
-            else {
-                result = "You Lost"
-                // const log = {
-                //     result: "lost",
-                //     selectedPerson: selected.data.name,
-                //     selectedPlanet: "",
-                //     category: "people"
-                // }
-                // this.props.playerLog(log)
-            }
-
-            resultCard = this.props.people.map(person => {
-                if (person.data.name === this.state.selectedPerson)
-                    bgClass = "card-container selected"
-                else
-                    bgClass = "card-container"
-                return <div key={person.data.name} className="col-md-6">
-                    <div className={bgClass}>
-                        <h4>Name: {person.data.name}</h4>
-                        <h4>Height: {person.data.height}</h4>
-                        <h4>Mass: {person.data.mass}</h4>
-                        <h4>Gender: {person.data.gender}</h4>
-                    </div>
-                </div>
-            })
-        }
-        if (this.props.match.params.id === 'planet') {
-            if (this.props.planets[this.indexOfMaxDiameter()].data.name === this.state.selectedPlanet)
-                result = "You won"
-            else
-                result = "You Lost"
-
-            resultCard = this.props.planets.map(planet => {
-                if (planet.data.name === this.state.selectedPlanet)
-                    bgClass = "card-container selected"
-                else
-                    bgClass = "card-container"
-                return <div key={planet.data.name} className="col-md-6">
-                    <div className={bgClass}>
-                        <h4>Name: {planet.data.name}</h4>
-                        <h4>Diameter: {planet.data.diameter}</h4>
-                        <h4>Mass: {planet.data.rotation_period}</h4>
-                        <h4>Gender: {planet.data.orbital_period}</h4>
-                    </div>
-                </div>
-            })
-        }
-
-        return <React.Fragment>
-            <h2 className="text-center">{result}</h2><br />
-            <div className="card-holder row">
-                {resultCard}
-            </div>
-            <Link to='/home' className="btn btn-primary">Play Again</Link>
-        </React.Fragment>
-    }
 
     render() {
-        const { selectedPerson, selectedPlanet } = this.state;
+        const { selectedPerson, selectedPlanet } = this.props;
         let selected;
 
         if (this.props.match.params.id === 'people')
@@ -188,7 +44,9 @@ export class Game extends Component {
 
         return (
             <div className="game container text-center"><br /><br />
-                {selected === '' ? this.displayNameCard() : this.displayResultCard()}
+                {selected === '' ?
+                    <DisplayNameCard param={this.props.match.params.id} /> :
+                    <DisplayResultCard param={this.props.match.params.id} />}
             </div>
         )
     }
@@ -196,10 +54,13 @@ export class Game extends Component {
 
 
 const mapStateToProps = state => ({
-    people: state.posts.people,
-    planets: state.posts.planets,
-    log: state.posts.log,
-    players: state.posts.players
+    people: state.fetch.people,
+    planets: state.fetch.planets,
+    log: state.fetch.log,
+    players: state.set.players,
+    selectedPlanet: state.set.selectedPlanet,
+    selectedPerson: state.set.selectedPerson,
+
 })
 
 const mapDispatchToProps = dispatch => ({
